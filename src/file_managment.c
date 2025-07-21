@@ -39,7 +39,15 @@ long get_size(FILE* file){
 }
 
 void read_file(FILE* file,int row){
-    system("clear");
+
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
+
+
+
     int term_row = get_row()-1;
     long size = get_size(file)+1;
     char* buffer = malloc(size);
