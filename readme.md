@@ -15,7 +15,7 @@ A lightweight, keyboard-controlled text reader for the terminal with navigation 
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/terminal-text-reader.git
+   git clone https://github.com/ShahradArianNezhad/terminal-text-reader.git
    cd terminal-text-reader
    ```
 2. Compile with make:  

@@ -10,7 +10,7 @@ BIN_DIR = bin
 
 SOURCES = $(wildcard $(SRC_DIR)/*.c)
 OBJECTS = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SOURCES))
-TARGET = $(BIN_DIR)/myprogram
+TARGET = $(BIN_DIR)/textreader
 
 
 all: $(TARGET)
