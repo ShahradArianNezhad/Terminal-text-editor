@@ -12,7 +12,7 @@
 
 
 FILE* open_handle(char* path){
-    FILE *file = fopen(path,"a+");
+    FILE *file = fopen(path,"r");
     return file;
 }
 
