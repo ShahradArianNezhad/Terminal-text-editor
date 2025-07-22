@@ -52,7 +52,7 @@ void read_file(FILE* file,int row){
 
 
 
-    int term_row = get_row()-1;
+    int term_row = get_row()-2;
     long size = get_size(file)+1;
     char* buffer = malloc(size);
     fread(buffer,1,size,file);
