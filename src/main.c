@@ -7,7 +7,14 @@
 
 
 int handle_args(int argc,char* argv[]){
-    if (argv[1]==NULL){
+
+  if(argc!=2){
+    printf("too many/few arguments supplied");
+    return 1;
+  }
+
+
+  if (argv[1]==NULL){
     printf("no file path declared\n");
     return 1;
   }
@@ -45,6 +52,7 @@ int main(int argc,char* argv[]){
     // REPLACE MODE
     if(c=='r'){
       read_file(curr_row,cont,"REPLACE");
+      printf("\033[4 q");
       printf("\033[%d;%dH",y+1,x+1);
       fflush(stdout);
       read(STDIN_FILENO,&c,1);
@@ -55,16 +63,26 @@ int main(int argc,char* argv[]){
         read(STDIN_FILENO,&c,1);
       }
       replace_word(x,y,curr_row,c,cont);
+      printf("\033[2 q");
+      printf("\033[%d;%dH",y+1,x+1);
+      fflush(stdout);
     }
 
 
     // VIEW MODE
-    if(c=='\033'){
+    else if(c=='\033'){
 
       read(STDIN_FILENO,&c,1);
       read(STDIN_FILENO,&c,1);
       handle_arrow_keys(&x,&y,&curr_row,cont,c,file_rows);
     }
+
+
+    else if(c=='a'){
+      printf("\033[4 q");
+    }
+
+
   }
   close_handle(file);
 
