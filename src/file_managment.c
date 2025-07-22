@@ -13,6 +13,10 @@
 
 FILE* open_handle(char* path){
     FILE *file = fopen(path,"r");
+    if(file==NULL){
+        perror("File not found/ error opening file");
+        exit(EXIT_FAILURE);
+    }
     return file;
 }
 
