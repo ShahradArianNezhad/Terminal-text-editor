@@ -18,6 +18,10 @@ void close_handle(FILE* file);
 
 long get_size(FILE* file);
 
-char* read_file(FILE* file,int row);
+char* read_file(int row,char* file_cont,char* MODE);
 
 int get_file_rows(FILE* file);
+
+void replace_word(int x,int y,int row,char c,char* file_cont);
+
+char* get_file_cont(FILE* file);

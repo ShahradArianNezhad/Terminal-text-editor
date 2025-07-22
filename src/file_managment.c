@@ -35,6 +35,8 @@ int get_file_rows(FILE* file){
 }
 
 
+
+
 long get_size(FILE* file){
     fseek(file,0,SEEK_END);
     long file_size = ftell(file);
@@ -42,7 +44,15 @@ long get_size(FILE* file){
     return file_size;
 }
 
-void read_file(FILE* file,int row){
+char* get_file_cont(FILE* file){
+    long size = get_size(file)+1;
+    char* buffer = malloc(size);
+    fread(buffer,1,size,file);
+    buffer[size]='\0';
+    return buffer;
+}
+
+void read_file(int row,char* file_cont,char* MODE){
 
     #ifdef _WIN32
         system("cls");
@@ -53,15 +63,13 @@ void read_file(FILE* file,int row){
 
 
     int term_row = get_row()-2;
-    long size = get_size(file)+1;
-    char* buffer = malloc(size);
-    fread(buffer,1,size,file);
-    buffer[size]='\0';
+    
 
     int row_count=1;
     int word_count=0;
     int i=0;
     int printed_rows=0;
+    char* buffer = file_cont;
 
 
     while(term_row>=printed_rows){
@@ -98,8 +106,49 @@ void read_file(FILE* file,int row){
 
     }
     printf("\n");
-    printf("use arrow keys to navigate, press 'q' to quit\n");
     
+    printf("%s mode press Q to exit\n",MODE);
+    
+
+
+}
+
+
+
+
+
+void replace_word(int x,int y,int row,char c,char* file_cont){
+    int curr_row = 1;
+    int word_count=0;
+    int i=0;
+
+
+    char* buffer= file_cont;
+    
+    while(curr_row<(row+y)){
+        if(buffer[i]=='\n'){
+            word_count=0;
+            curr_row++;
+            i++;
+        }else{
+            if(word_count==get_col()){
+                word_count=0;
+                curr_row++;
+            }else{
+                word_count++;
+                i++;
+            }
+        }
+    }
+    i = i+x;
+
+    buffer[i]=c;
+    read_file(row,file_cont,"VIEW");
+    printf("\033[%d;%dH",y+1,x+1);
+    fflush(stdout);
+
+
+
 
 
 }

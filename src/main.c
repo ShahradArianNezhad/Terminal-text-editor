@@ -28,10 +28,9 @@ int main(int argc,char* argv[]){
 
   enable_raw_mode();
   FILE* file= open_handle(argv[1]);
-
+  char* cont = get_file_cont(file);
   int file_rows = get_file_rows(file);
-  read_file(file,curr_row);
-
+  read_file(curr_row,cont,"VIEW");
 
 
   int x=0,y=0;
@@ -41,42 +40,33 @@ int main(int argc,char* argv[]){
   char c;
 
   while (read(STDIN_FILENO,&c,1)==1 && c !='q'){
+
+
+    // REPLACE MODE
+    if(c=='r'){
+      read_file(curr_row,cont,"REPLACE");
+      printf("\033[%d;%dH",y+1,x+1);
+      fflush(stdout);
+      read(STDIN_FILENO,&c,1);
+      while(c=='\033'){
+        read(STDIN_FILENO,&c,1);
+        read(STDIN_FILENO,&c,1);
+        handle_arrow_keys(&x,&y,&curr_row,cont,c,file_rows);
+        read(STDIN_FILENO,&c,1);
+      }
+      replace_word(x,y,curr_row,c,cont);
+    }
+
+
+    // VIEW MODE
     if(c=='\033'){
 
       read(STDIN_FILENO,&c,1);
       read(STDIN_FILENO,&c,1);
-      if(c=='A'){
-        if(y==0){
-          if(curr_row!=1){
-            curr_row--;
-            read_file(file,curr_row);
-          }
-
-        }else{
-          y--;
-        }
-      }else if(c=='B'){
-        if(y==get_row()-1){
-          if((curr_row+get_row()-1) != file_rows){
-            curr_row++;
-            read_file(file,curr_row);
-          }
-        }else{
-        y++;
-        }
-      }else if(c=='C'){
-        x++;
-      }else if(c=='D'){
-        x--;
-      }
-      printf("\033[%d;%dH",y+1,x+1);
-      fflush(stdout);
-
+      handle_arrow_keys(&x,&y,&curr_row,cont,c,file_rows);
     }
   }
   close_handle(file);
-
-
 
 
 
