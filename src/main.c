@@ -49,7 +49,7 @@ int main(int argc,char* argv[]){
 
   while (read(STDIN_FILENO,&c,1)==1 && c !='q'){
 
-
+    
     // REPLACE MODE
     if(c=='r'){
       read_file(curr_row,cont,"REPLACE MODE");
@@ -63,10 +63,10 @@ int main(int argc,char* argv[]){
         handle_arrow_keys(&x,&y,&curr_row,cont,c,file_rows);
         read(STDIN_FILENO,&c,1);
       }
-      replace_word(x,y,curr_row,c,cont);
-      printf("\033[2 q");
-      printf("\033[%d;%dH",y+1,x+1);
-      fflush(stdout);
+        replace_word(x,y,curr_row,c,cont);
+        printf("\033[2 q");
+        printf("\033[%d;%dH",y+1,x+1);
+        fflush(stdout);
     }
 
 
@@ -87,7 +87,7 @@ int main(int argc,char* argv[]){
 
 
       read(STDIN_FILENO,&c,1);
-      while(c!='q'){
+      while(c!=27){
         if(c=='\033'){
           read(STDIN_FILENO,&c,1);
           read(STDIN_FILENO,&c,1);
