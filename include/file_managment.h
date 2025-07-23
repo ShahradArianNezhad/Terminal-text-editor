@@ -25,3 +25,5 @@ int get_file_rows(FILE* file);
 void replace_word(int x,int y,int row,char c,char* file_cont);
 
 char* get_file_cont(FILE* file);
+
+int get_pos(char* file_cont,int row,int x,int y);

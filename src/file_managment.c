@@ -121,10 +121,7 @@ void read_file(int row,char* file_cont,char* MODE){
 }
 
 
-
-
-
-void replace_word(int x,int y,int row,char c,char* file_cont){
+int get_pos(char* file_cont,int row,int x,int y){
     int curr_row = 1;
     int word_count=0;
     int i=0;
@@ -147,13 +144,24 @@ void replace_word(int x,int y,int row,char c,char* file_cont){
             }
         }
     }
-    i = i+x;
+    return i+x;
+}
+
+
+void replace_word(int x,int y,int row,char c,char* file_cont){
+
+    int i= get_pos(file_cont,row,x,y);
+
+
+    char* buffer= file_cont;
     
-    if(buffer[i]=='\n'){
-        char* temp = realloc(file_cont,strlen(file_cont));
-        buffer = temp;
-        buffer[i+1]='\n';
-    }
+   
+    
+    // if(buffer[i]=='\n'){
+    //     char* temp = realloc(file_cont,strlen(file_cont));
+    //     buffer = temp;
+    //     buffer[i+1]='\n';
+    // }
 
 
     buffer[i]=c;
@@ -166,3 +174,6 @@ void replace_word(int x,int y,int row,char c,char* file_cont){
 
 
 }
+
+
+

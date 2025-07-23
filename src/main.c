@@ -1,5 +1,6 @@
 #include "../include/terminal.h"
 #include "../include/file_managment.h"
+#include "../include/arr.h"
 
 #include <unistd.h>
 #include <stdio.h>
@@ -79,16 +80,33 @@ int main(int argc,char* argv[]){
 
 
     else if(c=='a'){
+      read_file(curr_row,cont,"APPEND MODE");
       printf("\033[6 q");
       printf("\033[%d;%dH",y+1,x+1);
       fflush(stdout);
 
 
+      read(STDIN_FILENO,&c,1);
+      while(c!='q'){
+        if(c=='\033'){
+          read(STDIN_FILENO,&c,1);
+          read(STDIN_FILENO,&c,1);
+          handle_arrow_keys(&x,&y,&curr_row,cont,c,file_rows);
+        }else{
+          cont = append_to_array(cont,c,get_pos(cont,curr_row,x,y),get_size(file));
+          read_file(curr_row,cont,"APPEND MODE");
+          printf("\033[%d;%dH",y+1,x+1);
+          fflush(stdout);
+        }
+        read(STDIN_FILENO,&c,1);
+        
+      }
+
+      read_file(curr_row,cont,"VIEW MODE");
+      printf("\033[2 q"); 
+      printf("\033[%d;%dH",y+1,x+1);
+      fflush(stdout);
       
-
-
-
-
     }
 
     else if(c=='w'){
@@ -98,6 +116,8 @@ int main(int argc,char* argv[]){
       file= open_handle(argv[1],'r');
       fprintf(file,cont);
       read_file(curr_row,cont,"WROTE TO FILE");
+      printf("\033[%d;%dH",y+1,x+1);
+      fflush(stdout);
     }
 
 
