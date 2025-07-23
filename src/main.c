@@ -95,6 +95,7 @@ int main(int argc,char* argv[]){
         }else{
           cont = append_to_array(cont,c,get_pos(cont,curr_row,x,y),get_size(file));
           read_file(curr_row,cont,"APPEND MODE");
+          x++;
           printf("\033[%d;%dH",y+1,x+1);
           fflush(stdout);
         }
