@@ -34,10 +34,10 @@ int main(int argc,char* argv[]){
 
 
   enable_raw_mode();
-  FILE* file= open_handle(argv[1]);
+  FILE* file= open_handle(argv[1],'r');
   char* cont = get_file_cont(file);
   int file_rows = get_file_rows(file);
-  read_file(curr_row,cont,"VIEW");
+  read_file(curr_row,cont,"VIEW MODE");
 
 
   int x=0,y=0;
@@ -51,7 +51,7 @@ int main(int argc,char* argv[]){
 
     // REPLACE MODE
     if(c=='r'){
-      read_file(curr_row,cont,"REPLACE");
+      read_file(curr_row,cont,"REPLACE MODE");
       printf("\033[4 q");
       printf("\033[%d;%dH",y+1,x+1);
       fflush(stdout);
@@ -79,7 +79,25 @@ int main(int argc,char* argv[]){
 
 
     else if(c=='a'){
-      printf("\033[4 q");
+      printf("\033[6 q");
+      printf("\033[%d;%dH",y+1,x+1);
+      fflush(stdout);
+
+
+      
+
+
+
+
+    }
+
+    else if(c=='w'){
+      close_handle(file);
+      file=open_handle(argv[1],'w');
+      close_handle(file);
+      file= open_handle(argv[1],'r');
+      fprintf(file,cont);
+      read_file(curr_row,cont,"WROTE TO FILE");
     }
 
 

@@ -11,7 +11,7 @@
 #pragma once
 
 
-FILE* open_handle(char* path);
+FILE* open_handle(char* path,char mode);
 
 
 void close_handle(FILE* file);

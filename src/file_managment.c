@@ -9,10 +9,17 @@
 #include <stdio.h>
 #include "../include/terminal.h"
 #include <stdlib.h>
+#include <string.h>
 
 
-FILE* open_handle(char* path){
-    FILE *file = fopen(path,"r");
+FILE* open_handle(char* path,char mode){
+    FILE* file;
+    if(mode=='r'){
+        file = fopen(path,"r+");
+    }else{
+        file = fopen(path,"w+");
+    }
+
     if(file==NULL){
         perror("File not found/ error opening file");
         exit(EXIT_FAILURE);
@@ -107,7 +114,7 @@ void read_file(int row,char* file_cont,char* MODE){
     }
     printf("\n");
     
-    printf("%s mode press Q to exit\n",MODE);
+    printf("%s press Q to exit\n",MODE);
     
 
 
@@ -141,9 +148,16 @@ void replace_word(int x,int y,int row,char c,char* file_cont){
         }
     }
     i = i+x;
+    
+    if(buffer[i]=='\n'){
+        char* temp = realloc(file_cont,strlen(file_cont));
+        buffer = temp;
+        buffer[i+1]='\n';
+    }
+
 
     buffer[i]=c;
-    read_file(row,file_cont,"VIEW");
+    read_file(row,buffer,"VIEW");
     printf("\033[%d;%dH",y+1,x+1);
     fflush(stdout);
 
