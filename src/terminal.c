@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <sys/ioctl.h>
 #include "../include/file_managment.h"
+#include "../include/arr.h"
 
 static struct termios original;
 
@@ -33,12 +34,12 @@ int get_row(){
 
 
 
-void handle_arrow_keys(int* x,int* y,int* curr_row,char* cont,char c,int file_rows){
+void handle_arrow_keys(int* x,int* y,int* curr_row,char* cont,char c,int file_rows,FILE* handel){
     if(c=='A'){
         if(*y==0){
           if((*curr_row)!=1){
             (*curr_row)--;
-            read_file(*curr_row,cont,"VIEW");
+            read_file(*curr_row,cont,"VIEW",get_curr_size(get_size(handel)));
           }
 
         }else{
@@ -48,13 +49,16 @@ void handle_arrow_keys(int* x,int* y,int* curr_row,char* cont,char c,int file_ro
         if((*y)==get_row()-1){
           if(((*curr_row)+get_row()-1) != file_rows){
             (*curr_row)++;
-            read_file(*curr_row,cont,"VIEW");
+            read_file(*curr_row,cont,"VIEW",get_curr_size(get_size(handel)));
           }
         }else{
         (*y)++;
         }
       }else if(c=='C'){
-        (*x)++;
+        if(cont[get_pos(cont,*curr_row,*x,*y)]!='\n'){
+          (*x)++;
+        }
+        
       }else if(c=='D'){
         (*x)--;
       }

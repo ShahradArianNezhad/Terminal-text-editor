@@ -60,7 +60,7 @@ int main(int argc,char* argv[]){
       while(c=='\033'){
         read(STDIN_FILENO,&c,1);
         read(STDIN_FILENO,&c,1);
-        handle_arrow_keys(&x,&y,&curr_row,cont,c,file_rows);
+        handle_arrow_keys(&x,&y,&curr_row,cont,c,file_rows,file);
         read(STDIN_FILENO,&c,1);
       }
         replace_word(x,y,curr_row,c,cont,file);
@@ -75,7 +75,7 @@ int main(int argc,char* argv[]){
 
       read(STDIN_FILENO,&c,1);
       read(STDIN_FILENO,&c,1);
-      handle_arrow_keys(&x,&y,&curr_row,cont,c,file_rows);
+      handle_arrow_keys(&x,&y,&curr_row,cont,c,file_rows,file);
     }
 
 
@@ -93,7 +93,7 @@ int main(int argc,char* argv[]){
             if(c == '['){
               if(read(STDIN_FILENO, &c, 1) == 1){
                 
-                  handle_arrow_keys(&x,&y,&curr_row,cont,c,file_rows);
+                  handle_arrow_keys(&x,&y,&curr_row,cont,c,file_rows,file);
                   read(STDIN_FILENO, &c, 1);
                   continue;
                 }  
@@ -119,8 +119,14 @@ int main(int argc,char* argv[]){
 
         }else{
           cont = append_to_array(cont,c,get_pos(cont,curr_row,x,y),get_size(file));
+          if(c=='\n'){
+            x=0;
+            y++;
+          }else{
+            x++;
+          }
           read_file(curr_row,cont,"APPEND MODE",get_curr_size(get_size(file)));
-          x++;
+          
           printf("\033[%d;%dH",y+1,x+1);
           fflush(stdout);
         }
