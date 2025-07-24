@@ -38,3 +38,9 @@ char* delete_from_array(char* arr,int pos,long init_size){
     appended--;
     return newarr;
 }
+
+
+
+long get_curr_size(long init_size){
+    return init_size+appended;
+}

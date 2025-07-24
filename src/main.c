@@ -38,7 +38,7 @@ int main(int argc,char* argv[]){
   FILE* file= open_handle(argv[1],'r');
   char* cont = get_file_cont(file);
   int file_rows = get_file_rows(file);
-  read_file(curr_row,cont,"VIEW MODE");
+  read_file(curr_row,cont,"VIEW MODE",get_curr_size(get_size(file)));
 
 
   int x=0,y=0;
@@ -52,7 +52,7 @@ int main(int argc,char* argv[]){
     
     // REPLACE MODE
     if(c=='r'){
-      read_file(curr_row,cont,"REPLACE MODE");
+      read_file(curr_row,cont,"REPLACE MODE",get_curr_size(get_size(file)));
       printf("\033[4 q");
       printf("\033[%d;%dH",y+1,x+1);
       fflush(stdout);
@@ -63,7 +63,7 @@ int main(int argc,char* argv[]){
         handle_arrow_keys(&x,&y,&curr_row,cont,c,file_rows);
         read(STDIN_FILENO,&c,1);
       }
-        replace_word(x,y,curr_row,c,cont);
+        replace_word(x,y,curr_row,c,cont,file);
         printf("\033[2 q");
         printf("\033[%d;%dH",y+1,x+1);
         fflush(stdout);
@@ -80,7 +80,7 @@ int main(int argc,char* argv[]){
 
 
     else if(c=='a'){
-      read_file(curr_row,cont,"APPEND MODE");
+      read_file(curr_row,cont,"APPEND MODE",get_curr_size(get_size(file)));
       printf("\033[6 q");
       printf("\033[%d;%dH",y+1,x+1);
       fflush(stdout);
@@ -99,7 +99,7 @@ int main(int argc,char* argv[]){
                 }  
             }
           }
-          read_file(curr_row,cont,"VIEW MODE");
+          read_file(curr_row,cont,"VIEW MODE",get_curr_size(get_size(file)));
           printf("\033[2 q"); 
           printf("\033[%d;%dH",y+1,x+1);
           fflush(stdout);
@@ -113,13 +113,13 @@ int main(int argc,char* argv[]){
           cont = delete_from_array(cont,get_pos(cont,curr_row,x,y),get_size(file));
           
           x--;
-          read_file(curr_row,cont,"APPEND MODE");
+          read_file(curr_row,cont,"APPEND MODE",get_curr_size(get_size(file)));
           printf("\033[%d;%dH",y+1,x+1);
           fflush(stdout);
 
         }else{
           cont = append_to_array(cont,c,get_pos(cont,curr_row,x,y),get_size(file));
-          read_file(curr_row,cont,"APPEND MODE");
+          read_file(curr_row,cont,"APPEND MODE",get_curr_size(get_size(file)));
           x++;
           printf("\033[%d;%dH",y+1,x+1);
           fflush(stdout);
@@ -137,7 +137,7 @@ int main(int argc,char* argv[]){
       close_handle(file);
       file= open_handle(argv[1],'r');
       fprintf(file,cont);
-      read_file(curr_row,cont,"WROTE TO FILE");
+      read_file(curr_row,cont,"WROTE TO FILE",get_curr_size(get_size(file)));
       printf("\033[%d;%dH",y+1,x+1);
       fflush(stdout);
     }

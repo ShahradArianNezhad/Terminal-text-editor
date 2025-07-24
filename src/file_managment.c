@@ -10,6 +10,7 @@
 #include "../include/terminal.h"
 #include <stdlib.h>
 #include <string.h>
+#include "../include/arr.h"
 
 
 FILE* open_handle(char* path,char mode){
@@ -59,7 +60,7 @@ char* get_file_cont(FILE* file){
     return buffer;
 }
 
-void read_file(int row,char* file_cont,char* MODE){
+void read_file(int row,char* file_cont,char* MODE,int acc_size){
 
     #ifdef _WIN32
         system("cls");
@@ -80,6 +81,7 @@ void read_file(int row,char* file_cont,char* MODE){
 
 
     while(term_row>=printed_rows){
+        if(i==acc_size){break;}
 
         if (buffer[i]=='\n'){
 
@@ -148,7 +150,7 @@ int get_pos(char* file_cont,int row,int x,int y){
 }
 
 
-void replace_word(int x,int y,int row,char c,char* file_cont){
+void replace_word(int x,int y,int row,char c,char* file_cont,FILE* handel){
 
     int i= get_pos(file_cont,row,x,y);
 
@@ -165,7 +167,7 @@ void replace_word(int x,int y,int row,char c,char* file_cont){
 
 
     buffer[i]=c;
-    read_file(row,buffer,"VIEW");
+    read_file(row,buffer,"VIEW",get_curr_size(get_size(handel)));
     printf("\033[%d;%dH",y+1,x+1);
     fflush(stdout);
 
