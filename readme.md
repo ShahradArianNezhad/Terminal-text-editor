@@ -1,9 +1,11 @@
 # Terminal Text Reader
 
-A lightweight, keyboard-controlled text editor for the terminal with navigation support.
+A extremely lightweight, keyboard-controlled text editor for the terminal with navigation support.
 
 ## Features
 
+- very small application size of 20kb
+- low memory usage of only a few megabytes;
 - Edit text files with clean pagination
 - Keyboard navigation (arrow keys)
 - Adjusts to terminal window size
