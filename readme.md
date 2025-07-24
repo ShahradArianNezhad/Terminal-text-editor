@@ -1,6 +1,6 @@
 # Terminal Text Reader
 
-A lightweight, keyboard-controlled text reader for the terminal with navigation support.
+A lightweight, keyboard-controlled text editor for the terminal with navigation support.
 
 ## Features
 
