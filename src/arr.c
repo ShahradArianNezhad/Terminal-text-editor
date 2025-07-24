@@ -2,9 +2,11 @@
 #include "file_managment.h"
 #include <stdio.h>
 
+static int appended=0;
+static long size;
+
 char* append_to_array(char* arr,char c,int pos,long init_size){
-    static int appended=0;
-    static long size;
+    
     int CHUNK = 256;
     char* newarr=arr;
 
@@ -24,4 +26,15 @@ char* append_to_array(char* arr,char c,int pos,long init_size){
     return newarr;
 
 
+}
+
+
+char* delete_from_array(char* arr,int pos,long init_size){
+    char* newarr = arr;
+
+    for(int i=(pos-1);i<(init_size+appended);i++){
+        newarr[i]=newarr[i+1];
+    }
+    appended--;
+    return newarr;
 }
